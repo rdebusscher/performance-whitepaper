@@ -33,6 +33,12 @@ exact number of records within the dataset and to determine the memory size the 
 
 ## MicroStream
 
+The MicroStream solution can be found within the module _microstream_ and can be executed by the program `PerformanceLoad`.
+
+The Root object for MicroStream is a class (see `DataRoot`) that holds th data in a Map structure. The key is the day number and the value of the map is a Lazy list of TripDetails for that day.
+
+The call back method puts the data in the Map structure and after all data is loaded, each day is stored to the Binary format.
+
 ## Prepare database
 
 ## JDBC
