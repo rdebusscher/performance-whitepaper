@@ -1,0 +1,22 @@
+  create table trip_details (
+       tripId varchar(255) not null,
+        congestionSurcharge float4 not null,
+        distance float4 not null,
+        dropoffDateTime timestamp,
+        dropoffLocationId varchar(255),
+        extraAmount float4 not null,
+        fareAmount float4 not null,
+        improvementSurcharge float4 not null,
+        mtaTax float4 not null,
+        passengerCount int2 not null,
+        paymentType int2 not null,
+        pickupDateTime timestamp,
+        pickupLocationId varchar(255),
+        rateCodeId int2 not null,
+        storeAndFwdFlag char(1) not null,
+        tipAmount float4 not null,
+        tollAmount float4 not null,
+        totalAmount float4 not null,
+        vendorId varchar(255),
+        primary key (tripId)
+    )
