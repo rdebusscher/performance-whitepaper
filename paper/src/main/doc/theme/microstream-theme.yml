@@ -1,0 +1,18 @@
+extends: default
+footer:
+  recto:
+    right:
+      content: '| *{page-number}*'
+  verso:
+    left:
+      content: '*{page-number}* |'
+header:
+  height: $base_line_height_length * 2.5
+  line_height: 1
+
+  recto:
+    right:
+      content: '_MicroStream White Paper_'
+  verso:
+    left:
+      content: '_MicroStream White Paper_'
