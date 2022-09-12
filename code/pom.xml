@@ -45,6 +45,7 @@
 
     <modules>
         <module>write</module>
+        <module>read</module>
     </modules>
 
 </project>

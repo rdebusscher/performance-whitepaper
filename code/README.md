@@ -106,3 +106,26 @@ this JOOQ example could be improved.
 
 # Compare Read performance
 
+For the comparison of the Query performance, we also generate test data.  The data represent a Book Store. It has shops in different countries, tracks the stock and keeps purchases by customers.
+
+The code within the directory/module _generator_ creates the (realistic) test data using Java Faker library. You should first create data in the MicroStream format and use this to upload it in the PostgreSQL database (using Hibernate)  
+This to make sure all read performance tests later on make use of exact the same data.
+
+This generation of data is not part of the test itself.
+
+## Book store data
+
+Have a look at the white paper PDF as it contains a database schema if you like to explore the schema more in detail.
+
+The program can generate 3 'sizes' of data (Medium, Large and Huge). Have a look at the `GenerateData` program within the _read/generator_ module.
+
+If you want to (re-) generate the datasets, you can follow the following steps.
+
+- Make sure the _bookstore_ and _data_ directories are removed. They contain the MicroStream and Lucene index data from a previous run.
+- Run the program `GenerateData` to have the data created w-and stored in the MicroStream format.
+- Start the PostgreSQL server, we make again use of the Docker container  
+```
+docker run --name some-postgres -e POSTGRES_PASSWORD=mysecretpassword -d -p 5432:5432 postgres
+```
+- Create the database tables by executing the program `SchemaCreationDatabase`.  It reads the sql file _create_database.sql_ that (re-)creates all tables and indexes.  
+- Run the program `UploadIntoDatabase` to load the data into the database (this can take a while)
