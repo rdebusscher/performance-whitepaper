@@ -1,6 +1,6 @@
 package be.rubus.microstream.performance.generator.insert;
 
-public class ForeignIdItem<T> {
+class ForeignIdItem<T> {
 
     final T item;
     final Long foreignId;

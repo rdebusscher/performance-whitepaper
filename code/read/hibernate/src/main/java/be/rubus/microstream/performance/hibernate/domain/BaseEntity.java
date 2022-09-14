@@ -9,7 +9,6 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
 
-
 @Cacheable
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @MappedSuperclass

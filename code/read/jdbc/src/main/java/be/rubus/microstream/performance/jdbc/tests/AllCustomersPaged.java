@@ -19,7 +19,7 @@ public class AllCustomersPaged {
         Logger logger = LoggerFactory.getLogger(AllCustomersPaged.class);
 
         logger.info("Performance run JDBC");
-        StopWatch stopWatch = StopWatch.StartNanoTime();
+        StopWatch stopWatch = StopWatch.start();
 
         Class.forName("org.postgresql.Driver");
 

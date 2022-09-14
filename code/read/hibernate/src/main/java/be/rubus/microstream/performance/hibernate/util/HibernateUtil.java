@@ -25,9 +25,4 @@ public class HibernateUtil {
 		return sessionFactory;
 	}
 
-	public static void shutdown() {
-		// Close caches and connection pools
-		getSessionFactory().close();
-	}
-
 }

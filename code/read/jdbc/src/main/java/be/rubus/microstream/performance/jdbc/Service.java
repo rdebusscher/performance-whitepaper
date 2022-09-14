@@ -30,7 +30,7 @@ public class Service {
     }
 
     public QueryInformation<List<Customer>> allCustomersPaged() {
-        StopWatch stopWatch = StopWatch.StartNanoTime();
+        StopWatch stopWatch = StopWatch.start();
 
         List<List<Customer>> results = new ArrayList<>();
 
@@ -48,7 +48,7 @@ public class Service {
 
         List<List<Purchase>> results = new ArrayList<>();
 
-        StopWatch stopWatch = StopWatch.StartNanoTime();
+        StopWatch stopWatch = StopWatch.start();
 
         IntStream.rangeClosed(randomYears.getLowerBound(), randomYears.getUpperbound()).forEach(year ->
                 countries.forEach(country ->
@@ -64,7 +64,7 @@ public class Service {
 
     private void purchaseOfForeignersHotRun(Range<Integer> randomYears, List<Country> countries) {
         List<List<Purchase>> results = new ArrayList<>();
-        StopWatch stopWatch = StopWatch.StartNanoTime();
+        StopWatch stopWatch = StopWatch.start();
 
         IntStream.rangeClosed(randomYears.getLowerBound(), randomYears.getUpperbound()).forEach(year ->
                 countries.forEach(country ->

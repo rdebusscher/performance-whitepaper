@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.time.Duration;
 import java.util.List;
 
 public class PurchaseOfForeigners {
@@ -20,7 +19,7 @@ public class PurchaseOfForeigners {
         Logger logger = LoggerFactory.getLogger(PurchaseOfForeigners.class);
 
         logger.info("Performance run JDBC");
-        StopWatch stopWatch = StopWatch.StartNanoTime();
+        StopWatch stopWatch = StopWatch.start();
 
         Class.forName("org.postgresql.Driver");
 

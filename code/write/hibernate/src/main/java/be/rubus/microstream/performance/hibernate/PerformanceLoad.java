@@ -18,7 +18,7 @@ public class PerformanceLoad {
 
         Logger logger = LoggerFactory.getLogger(PerformanceLoad.class);
 
-        StopWatch stopWatch = StopWatch.StartNanoTime();
+        StopWatch stopWatch = StopWatch.start();
 
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();

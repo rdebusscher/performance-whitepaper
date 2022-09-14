@@ -17,13 +17,12 @@ public class LoadingSpeed {
         TripDataLoader loader = new TripDataLoader(tripDetails -> {
         });
 
-        StopWatch stopWatch = StopWatch.StartNanoTime();
+        StopWatch stopWatch = StopWatch.start();
         loader.loadTripDetails();
 
         Duration loadingTime = Duration.ofNanos(stopWatch.stop());
 
         Logger logger = LoggerFactory.getLogger(LoadingSpeed.class);
-        // Default format
         logger.info("Data Loading took {} Second {} Millisecond {} Nanosecond", loadingTime.toSecondsPart(), loadingTime.toMillisPart(), loadingTime.toNanosPart() % 1_000_000L);
 
     }

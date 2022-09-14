@@ -20,7 +20,7 @@ public class State extends Named {
     public State(Long id, String name, Country country) {
         super(id, name);
 
-        this.country = Objects.requireNonNull(country, () -> "Country cannot be null");
+        this.country = Objects.requireNonNull(country, "Country cannot be null");
     }
 
     /**

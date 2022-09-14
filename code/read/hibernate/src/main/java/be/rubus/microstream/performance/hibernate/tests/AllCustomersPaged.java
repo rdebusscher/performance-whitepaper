@@ -10,7 +10,6 @@ import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.time.Duration;
 import java.util.List;
 
 public class AllCustomersPaged {
@@ -18,7 +17,7 @@ public class AllCustomersPaged {
         Logger logger = LoggerFactory.getLogger(AllCustomersPaged.class);
         logger.info("Performance run Hibernate");
 
-        StopWatch stopWatch = StopWatch.StartNanoTime();
+        StopWatch stopWatch = StopWatch.start();
 
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             DurationUtil.printDuration(logger, "Database Access", stopWatch.stop());

@@ -2,7 +2,7 @@
 *.log
 ~*
 yellow_tripdata_2021-07.csv
-data
+lucene-data
 bookstore
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml

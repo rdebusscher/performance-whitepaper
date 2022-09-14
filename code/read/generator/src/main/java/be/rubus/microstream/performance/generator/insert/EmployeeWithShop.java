@@ -5,7 +5,7 @@ import be.rubus.microstream.performance.microstream.database.model.Shop;
 import be.rubus.microstream.performance.model.Employee;
 
 /**
- * Since we don't have a reference from the Employee to the Shop, this object
+ * Since we don't have a reference from the Employee to the Shop, this object keep track of it.
  */
 public class EmployeeWithShop  {
 

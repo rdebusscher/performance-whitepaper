@@ -1,5 +1,6 @@
 package be.rubus.microstream.performance.tripdata;
 
+import be.rubus.microstream.performance.ChannelUtil;
 import one.microstream.storage.types.StorageManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,15 +15,12 @@ public class PerformanceLoad {
 
         Logger logger = LoggerFactory.getLogger(PerformanceLoad.class);
 
-        StopWatch stopWatch = StopWatch.StartNanoTime();
+        StopWatch stopWatch = StopWatch.start();
 
         DataRoot root = new DataRoot();
 
-        int channels = 1; // basic
-        // When you want to get the maximum out of your machine
-        channels = Integer.highestOneBit(Runtime.getRuntime().availableProcessors() - 1);
-
-        StorageManager storageManager = StorageManagerFactory.create(System.getProperty("user.home")+"/microstream-performance/bydays", channels, root);
+        StorageManager storageManager =
+                StorageManagerFactory.create(System.getProperty("user.home")+"/microstream-performance/bydays", ChannelUtil.channelCount(), root);
 
         DataRecordLoaded loaded = new DataRecordLoaded(root);
 
@@ -39,7 +37,6 @@ public class PerformanceLoad {
 
         Duration loadingTime = Duration.ofNanos(stopWatch.stop());
 
-        // Default format
         logger.info("Data Loading AND storing took {} minutes {} Second {} Millisecond {} Nanosecond",
                 loadingTime.toMinutesPart(),
                 loadingTime.toSecondsPart(),

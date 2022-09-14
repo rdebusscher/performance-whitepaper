@@ -68,25 +68,25 @@ public class Index<T> implements Closeable {
      * @param entityMatcher     not <code>null</code>
      */
     public Index(Class<T> entityType, DocumentPopulator<T> documentPopulator, EntityMatcher<T> entityMatcher) {
-        this.entityType = Objects.requireNonNull(entityType, () -> "EntityType cannot be null");
-        this.documentPopulator = Objects.requireNonNull(documentPopulator, () -> "DocumentPopulator cannot be null");
-        this.entityMatcher = Objects.requireNonNull(entityMatcher, () -> "EntityMatcher cannot be null");
+        this.entityType = Objects.requireNonNull(entityType, "EntityType cannot be null");
+        this.documentPopulator = Objects.requireNonNull(documentPopulator, "DocumentPopulator cannot be null");
+        this.entityMatcher = Objects.requireNonNull(entityMatcher, "EntityMatcher cannot be null");
     }
 
     /**
-     * Adds an Java object to this index
+     * Adds a Java object to this index
      *
      * @param entity the java object to add
      */
     public synchronized void add(T entity) {
-        this.lazyInit();
+        lazyInit();
 
         try {
             Document document = new Document();
-            this.documentPopulator.accept(document, entity);
-            this.writer.addDocument(document);
-            this.writer.flush();
-            this.writer.commit();
+            documentPopulator.accept(document, entity);
+            writer.addDocument(document);
+            writer.flush();
+            writer.commit();
         } catch (IOException e) {
             throw new IORuntimeException(e);
         }
@@ -98,13 +98,13 @@ public class Index<T> implements Closeable {
      * @param entities the java objects to add
      */
     public synchronized void addAll(Collection<? extends T> entities) {
-        this.lazyInit();
+        lazyInit();
 
         try {
             for (T entity : entities) {
                 Document document = new Document();
-                this.documentPopulator.accept(document, entity);
-                this.writer.addDocument(document);
+                documentPopulator.accept(document, entity);
+                writer.addDocument(document);
             }
 
             writer.flush();
@@ -141,11 +141,11 @@ public class Index<T> implements Closeable {
         lazyInit();
 
         try {
-            TopDocs topDocs = this.searcher.search(query, maxResults);
+            TopDocs topDocs = searcher.search(query, maxResults);
             List<T> result = new ArrayList<>(topDocs.scoreDocs.length);
             for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
-                Document document = this.searcher.doc(scoreDoc.doc);
-                T entity = this.entityMatcher.apply(document);
+                Document document = searcher.doc(scoreDoc.doc);
+                T entity = entityMatcher.apply(document);
                 if (entity != null) {
                     result.add(entity);
                 }
@@ -162,9 +162,9 @@ public class Index<T> implements Closeable {
      * @return a new query builder.
      */
     public synchronized QueryBuilder createQueryBuilder() {
-        this.lazyInit();
+        lazyInit();
 
-        return new QueryBuilder(this.writer.getAnalyzer());
+        return new QueryBuilder(writer.getAnalyzer());
     }
 
     /**
@@ -173,7 +173,7 @@ public class Index<T> implements Closeable {
      * @return amount of entries
      */
     public synchronized int size() {
-        this.lazyInit();
+        lazyInit();
 
         return searcher.getIndexReader().numDocs();
     }
@@ -181,12 +181,12 @@ public class Index<T> implements Closeable {
     private void lazyInit() {
         try {
             if (directory == null) {
-                Path path = Paths.get("lucene-data", "index", this.entityType.getSimpleName());
+                Path path = Paths.get("lucene-data", "index", entityType.getSimpleName());
                 directory = new MMapDirectory(path);
                 writer = new IndexWriter(directory, new IndexWriterConfig(new StandardAnalyzer()));
-                searcher = new IndexSearcher(reader = DirectoryReader.open(this.writer));
+                searcher = new IndexSearcher(reader = DirectoryReader.open(writer));
             } else {
-                DirectoryReader newReader = DirectoryReader.openIfChanged(this.reader);
+                DirectoryReader newReader = DirectoryReader.openIfChanged(reader);
                 if (newReader != null && newReader != reader) {
                     reader.close();
                     reader = newReader;
@@ -200,15 +200,15 @@ public class Index<T> implements Closeable {
 
     @Override
     public synchronized void close() throws IOException {
-        if (this.directory != null) {
-            this.writer.close();
-            this.reader.close();
-            this.directory.close();
+        if (directory != null) {
+            writer.close();
+            reader.close();
+            directory.close();
 
-            this.directory = null;
-            this.writer = null;
-            this.reader = null;
-            this.searcher = null;
+            directory = null;
+            writer = null;
+            reader = null;
+            searcher = null;
         }
     }
 

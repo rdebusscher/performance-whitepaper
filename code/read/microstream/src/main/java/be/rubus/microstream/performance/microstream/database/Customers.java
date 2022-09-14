@@ -3,7 +3,6 @@ package be.rubus.microstream.performance.microstream.database;
 import be.rubus.microstream.performance.concurrent.ReadWriteLocked;
 import be.rubus.microstream.performance.model.Customer;
 import one.microstream.persistence.types.Persister;
-import one.microstream.storage.embedded.types.EmbeddedStorageManager;
 
 import java.util.*;
 import java.util.function.Function;
@@ -38,20 +37,6 @@ public class Customers extends ReadWriteLocked {
             persister.store(this.customers);
         });
     }
-
-    /**
-     * Adds a range of new customers and stores it with the {@link BookStoreDemo}'s {@link EmbeddedStorageManager}.
-     * <p>
-     * This is a synonym for:<pre>this.addAll(customers, BookStoreDemo.getInstance().storageManager())</pre>
-     *
-     * @param customers the new customers
-     */
-    /*
-    public void addAll(Collection<? extends Customer> customers) {
-        this.addAll(customers, BookStoreDemo.getInstance().storageManager());
-    }
-    FIXME Remove ??
-     */
 
     /**
      * Adds a range of new customers and stores it with the given persister.

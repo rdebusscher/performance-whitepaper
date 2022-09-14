@@ -20,23 +20,6 @@ public final class CollectionUtils {
 	private CollectionUtils() {
 	}
 
-	/**
-     * Returns a {@link Stream} of the given collection
-     * or an empty {@link Stream} if the collection is <code>null</code>.
-     *
-     * @param <T>
-     * @param <C>
-     * @param collection a collection or <code>null</code>
-     * @return a {@link Stream} backed by the collection or an empty one
-     */
-    public static <T, C extends Collection<T>> Stream<T> ensureStream(
-             C collection
-    ) {
-        return collection == null
-                ? Stream.empty()
-                : collection.stream();
-    }
-
     /**
      * Returns a parallel {@link Stream} of the given collection
      * or an empty {@link Stream} if the collection is <code>null</code>.

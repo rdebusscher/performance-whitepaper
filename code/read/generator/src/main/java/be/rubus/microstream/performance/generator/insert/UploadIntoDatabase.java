@@ -8,6 +8,7 @@ import be.rubus.microstream.performance.microstream.database.Data;
 import be.rubus.microstream.performance.Range;
 import be.rubus.microstream.performance.microstream.database.model.*;
 import be.rubus.microstream.performance.model.*;
+import be.rubus.microstream.performance.utils.ChannelUtil;
 import one.microstream.storage.types.StorageManager;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -27,13 +28,10 @@ public class UploadIntoDatabase {
     public static void main(String[] args) {
         logger = LoggerFactory.getLogger(GenerateData.class);
 
-        int channels = 1; // basic
-        // When you want to get the maximum out of your machine
-        channels = Integer.highestOneBit(Runtime.getRuntime().availableProcessors() - 1);
-
         Data root = new Data();
 
-        try (StorageManager storageManager = StorageManagerFactory.create("bookstore", channels, root)) {
+        try (StorageManager storageManager =
+                     StorageManagerFactory.create("bookstore", ChannelUtil.channelCount(), root)) {
 
             try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 

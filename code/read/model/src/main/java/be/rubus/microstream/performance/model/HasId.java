@@ -7,7 +7,7 @@ public abstract class HasId {
     private final Long id;
 
     public HasId(Long id) {
-        this.id = requireNonNull(id, () -> "id cannot be null");
+        this.id = requireNonNull(id, "id cannot be null");
     }
 
     public Long getId() {

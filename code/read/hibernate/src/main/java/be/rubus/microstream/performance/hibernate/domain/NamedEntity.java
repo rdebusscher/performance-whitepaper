@@ -3,7 +3,6 @@ package be.rubus.microstream.performance.hibernate.domain;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
-
 @MappedSuperclass
 public abstract class NamedEntity extends BaseEntity {
     @Column(name = "NAME")

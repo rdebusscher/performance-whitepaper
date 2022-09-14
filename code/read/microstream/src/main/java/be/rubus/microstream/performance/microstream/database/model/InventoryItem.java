@@ -8,6 +8,10 @@ import be.rubus.microstream.performance.model.Book;
  * This type is immutable and therefor inherently thread safe.
  */
 public class InventoryItem {
+    private final Shop shop;
+    private final Book book;
+    private final int amount;
+
     /**
      * Constructor to create a new {@link InventoryItem} instance.
      *
@@ -15,10 +19,6 @@ public class InventoryItem {
      * @param book not <code>null</code>
      * @param amount positive amount
      */
-    private final Shop shop;
-    private final Book book;
-    private final int amount;
-
     public InventoryItem(Shop shop, Book book, int amount) {
         this.shop = shop;
         this.book = book;

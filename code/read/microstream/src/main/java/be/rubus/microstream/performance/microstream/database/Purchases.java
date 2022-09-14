@@ -176,34 +176,20 @@ public class Purchases extends ReadWriteLocked {
      * @return all years with revenue
      */
     public Range<Integer> years() {
-        return this.read(() -> {
-            IntSummaryStatistics summary = this.yearlyPurchases.keySet().stream().mapToInt(Integer::intValue).summaryStatistics();
+        return read(() -> {
+            IntSummaryStatistics summary = yearlyPurchases.keySet().stream().mapToInt(Integer::intValue).summaryStatistics();
             return new Range<>(summary.getMin(), summary.getMax());
         });
     }
 
-
-    /**
-     * Get all purchases from a certain year. Only used for the creating of a Lazy version of the datamodel.
-     *
-     * @param year
-     * @return
-     */
-    public List<Purchase> getPurchasesOfYear(int year) {
-        Map<Shop, Lazy<List<Purchase>>> shopToPurchases = this.yearlyPurchases.get(year).get().shopToPurchases;
-
-        return shopToPurchases.values().stream().map(Referencing::get).flatMap(Collection::stream).collect(toList());
-
-    }
-
     /**
      * Clears all {@link Lazy} references regarding all purchases.
-     * This frees the used memory but you do not lose the persisted data. It is loaded again on demand.
+     * This frees the used memory, but you do not lose the persisted data. It is loaded again on demand.
      *
      * @see #clear(int)
      */
     public void clear() {
-        final List<Integer> years = this.read(() -> new ArrayList<>(this.yearlyPurchases.keySet()));
+        List<Integer> years = read(() -> new ArrayList<>(yearlyPurchases.keySet()));
         years.forEach(this::clear);
     }
 
@@ -215,7 +201,9 @@ public class Purchases extends ReadWriteLocked {
      * @see #clear()
      */
     public void clear(int year) {
-        this.write(() -> LazyUtils.clearIfStored(this.yearlyPurchases.get(year)).ifPresent(YearlyPurchases::clear));
+
+        write(() -> LazyUtils.clearIfStored(
+                yearlyPurchases.get(year)).ifPresent(YearlyPurchases::clear));
     }
 
     /**

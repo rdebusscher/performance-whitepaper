@@ -15,10 +15,10 @@ public class Address extends HasId {
 
     public Address(Long id, String address, String address2, String zipCode, City city) {
         super(id);
-        this.address = requireNonNull(address, () -> "Address cannot be null");
-        this.address2 = requireNonNull(address2, () -> "Address2 cannot be null");
-        this.zipCode = requireNonNull(zipCode, () -> "ZipCode cannot be null");
-        this.city = requireNonNull(city, () -> "City cannot be null");
+        this.address = requireNonNull(address, "Address cannot be null");
+        this.address2 = requireNonNull(address2, "Address2 cannot be null");
+        this.zipCode = requireNonNull(zipCode, "ZipCode cannot be null");
+        this.city = requireNonNull(city, "City cannot be null");
     }
 
     /**

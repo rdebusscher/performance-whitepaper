@@ -29,7 +29,6 @@ public final class StorageManagerFactory {
                 .setRoot(root)
                 .createEmbeddedStorageManager();
 
-        // Start ir
         storageManager.start();
 
         storageManager.storeRoot();

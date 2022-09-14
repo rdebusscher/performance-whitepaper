@@ -5,6 +5,7 @@ import be.rubus.microstream.performance.generator.data.DataMetrics;
 import be.rubus.microstream.performance.generator.data.RandomDataGenerator;
 import be.rubus.microstream.performance.microstream.StorageManagerFactory;
 import be.rubus.microstream.performance.microstream.database.Data;
+import be.rubus.microstream.performance.utils.ChannelUtil;
 import one.microstream.storage.types.StorageManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,13 +16,10 @@ public class GenerateData {
     public static void main(String[] args) {
         Logger logger = LoggerFactory.getLogger(GenerateData.class);
 
-        int channels = 1; // basic
-        // When you want to get the maximum out of your machine
-        channels = Integer.highestOneBit(Runtime.getRuntime().availableProcessors() - 1);
-
         Data root = new Data();
 
-        try (StorageManager storageManager = StorageManagerFactory.create("bookstore", channels, root)) {
+        try (StorageManager storageManager =
+                     StorageManagerFactory.create("bookstore", ChannelUtil.channelCount(), root)) {
 
             DataMetrics metrics = new RandomDataGenerator(
                     root.books(),

@@ -1,6 +1,5 @@
 package be.rubus.microstream.performance.tripdata;
 
-import be.rubus.microstream.performance.tripdata.TripDetailsData;
 import one.microstream.reference.Lazy;
 
 import java.time.LocalDateTime;

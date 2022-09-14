@@ -6,12 +6,12 @@ import be.rubus.microstream.performance.microstream.Service;
 import be.rubus.microstream.performance.microstream.StorageManagerFactory;
 import be.rubus.microstream.performance.microstream.database.Data;
 import be.rubus.microstream.performance.model.Customer;
+import be.rubus.microstream.performance.utils.ChannelUtil;
 import be.rubus.microstream.performance.utils.DurationUtil;
 import one.microstream.storage.types.StorageManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.time.Duration;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -23,13 +23,12 @@ public class AllCustomersPaged {
         Logger logger = LoggerFactory.getLogger(AllCustomersPaged.class);
         logger.info("Performance run MicroStream");
 
-        int channels = Integer.highestOneBit(Runtime.getRuntime().availableProcessors() - 1);
-
         Data root = new Data();
 
-        StopWatch stopWatch = StopWatch.StartNanoTime();
+        StopWatch stopWatch = StopWatch.start();
 
-        try (StorageManager storageManager = StorageManagerFactory.create("bookstore", channels, root)) {
+        try (StorageManager storageManager =
+                     StorageManagerFactory.create("bookstore", ChannelUtil.channelCount(), root)) {
 
             DurationUtil.printDuration(logger, "Database loading", stopWatch.stop());
 

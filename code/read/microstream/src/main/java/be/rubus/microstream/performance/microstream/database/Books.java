@@ -51,9 +51,9 @@ public class Books extends ReadWriteLocked {
      */
     public void addAll(Collection<? extends Book> books, Persister persister) {
         write(() -> {
-            this.ensureIndex().addAll(books);
+            ensureIndex().addAll(books);
             books.forEach(this::addToCollections);
-            this.storeCollections(persister);
+            storeCollections(persister);
         });
     }
 
@@ -72,11 +72,11 @@ public class Books extends ReadWriteLocked {
      * @param book the book to add
      */
     private void addToCollections(Book book) {
-        this.isbn13ToBook.put(book.isbn13(), book);
-        this.addToMap(this.authorToBooks, book.author(), book);
-        this.addToMap(this.genreToBooks, book.genre(), book);
-        this.addToMap(this.publisherToBooks, book.publisher(), book);
-        this.addToMap(this.languageToBooks, book.language(), book);
+        isbn13ToBook.put(book.isbn13(), book);
+        addToMap(authorToBooks, book.author(), book);
+        addToMap(genreToBooks, book.genre(), book);
+        addToMap(publisherToBooks, book.publisher(), book);
+        addToMap(languageToBooks, book.language(), book);
     }
 
     /**
@@ -198,7 +198,7 @@ public class Books extends ReadWriteLocked {
      * @see #compute(Function)
      */
     public <T> T computeByGenre(Genre genre, Function<Stream<Book>, T> streamFunction) {
-        return this.read(() -> {
+        return read(() -> {
             List<Book> list = genreToBooks.get(genre);
             return streamFunction.apply(list != null ? list.stream() : Stream.empty());
         });
@@ -381,7 +381,7 @@ public class Books extends ReadWriteLocked {
 
         Index<Book> index = new Index<>(Book.class, documentPopulator, entityMatcher);
 
-        if (index.size() == 0 && this.bookCount() > 0) {
+        if (index.size() == 0 && bookCount() > 0) {
             index.addAll(isbn13ToBook.values());
         }
 

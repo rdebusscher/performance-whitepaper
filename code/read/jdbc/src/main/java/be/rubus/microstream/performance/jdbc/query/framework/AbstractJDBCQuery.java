@@ -17,8 +17,8 @@ public abstract class AbstractJDBCQuery implements JDBCQuery {
     /**
      * You can use this method to show the metadata of a result set to check the fields and
      * make it easier to create the conversion to Objects.
-     * @param resultSet
-     * @throws SQLException
+     * @param resultSet The resultset to get metadata from.
+     * @throws SQLException When an issue occured during retrieval of the metadata.
      */
     protected void showMetadata(ResultSet resultSet) throws SQLException {
         if (!metadataShown) {

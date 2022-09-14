@@ -19,7 +19,7 @@ public class City extends Named {
     public City(Long id, String name, State state) {
         super(id, name);
 
-        this.state = requireNonNull(state, () -> "State cannot be null");
+        this.state = requireNonNull(state, "State cannot be null");
     }
 
     /**

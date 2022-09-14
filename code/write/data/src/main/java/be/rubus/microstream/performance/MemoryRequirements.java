@@ -18,17 +18,14 @@ public class MemoryRequirements {
     public static void main(String[] args) throws IOException {
         // Comment the following line of you want to see some progress (but it is slower)
 
-        TripDataLoader loader = new TripDataLoader(tripDetails -> {
-            data.put(tripDetails.getTripId(), tripDetails);
-        });
+        TripDataLoader loader = new TripDataLoader(tripDetails -> data.put(tripDetails.getTripId(), tripDetails));
 
-        StopWatch stopWatch = StopWatch.StartNanoTime();
+        StopWatch stopWatch = StopWatch.start();
         loader.loadTripDetails();
 
         Duration loadingTime = Duration.ofNanos(stopWatch.stop());
 
         Logger logger = LoggerFactory.getLogger(MemoryRequirements.class);
-        // Default format
         logger.info("Data Loading took {} Second {} Millisecond {} Nanosecond", loadingTime.toSecondsPart(), loadingTime.toMillisPart(), loadingTime.toNanosPart() % 1_000_000L);
 
         HeapDumpUtil.dump("memreq.hprof", true);

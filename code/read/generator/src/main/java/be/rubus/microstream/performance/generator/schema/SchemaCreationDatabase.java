@@ -16,8 +16,6 @@ import java.util.Map;
 public class SchemaCreationDatabase {
 
     public static void main(String[] args) throws IOException {
-        // We have done this already, no need to run this again.
-        // At the end of this method, code is executed.
 
         Map<String, String> settings = new HashMap<>();
         settings.put("connection.driver_class", "org.postgresql.Driver");

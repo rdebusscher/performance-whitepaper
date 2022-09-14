@@ -6,7 +6,6 @@ import be.rubus.microstream.performance.hibernate.converter.MoneyConverter;
 import javax.money.MonetaryAmount;
 import javax.persistence.*;
 
-
 @Entity
 @Table(name = "PURCHASEITEM", indexes = @Index(columnList = "PURCHASE_ID"))
 public class PurchaseItemEntity extends BaseEntity {

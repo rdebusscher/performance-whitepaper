@@ -7,7 +7,6 @@ import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Entity
 @Table(name = "AUTHOR")
 public class AuthorEntity extends NamedWithAddressEntity {

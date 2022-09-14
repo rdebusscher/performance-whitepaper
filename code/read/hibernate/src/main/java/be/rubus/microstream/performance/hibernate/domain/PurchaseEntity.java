@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Entity
 @Table(name = "PURCHASE", indexes = {@Index(columnList = "EMPLOYEE_ID"), @Index(columnList = "CUSTOMER_ID"), @Index(columnList = "SHOP_ID"), @Index(columnList = "TIME_STAMP")})
 public class PurchaseEntity extends BaseEntity {

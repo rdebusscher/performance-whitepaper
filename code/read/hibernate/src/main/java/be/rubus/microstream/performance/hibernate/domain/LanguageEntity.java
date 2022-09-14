@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-
 @Entity
 @Table(name = "LANGUAGE")
 public class LanguageEntity extends BaseEntity {

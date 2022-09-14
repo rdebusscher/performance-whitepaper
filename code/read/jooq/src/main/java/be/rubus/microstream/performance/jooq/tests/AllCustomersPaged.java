@@ -14,7 +14,6 @@ import org.slf4j.LoggerFactory;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.time.Duration;
 import java.util.List;
 
 public class AllCustomersPaged {
@@ -23,7 +22,7 @@ public class AllCustomersPaged {
         Logger logger = LoggerFactory.getLogger(AllCustomersPaged.class);
 
         logger.info("Performance run JOOQ");
-        StopWatch stopWatch = StopWatch.StartNanoTime();
+        StopWatch stopWatch = StopWatch.start();
 
         Class.forName("org.postgresql.Driver");
 

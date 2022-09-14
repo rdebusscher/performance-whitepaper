@@ -39,7 +39,7 @@ public class Shops extends ReadWriteLocked {
      * @param persister the persister to store them with
      */
     public void addAll(Collection<? extends Shop> shops, Persister persister) {
-        this.write(() -> {
+        write(() -> {
             this.shops.addAll(shops);
             persister.store(this.shops);
         });
@@ -82,7 +82,7 @@ public class Shops extends ReadWriteLocked {
      * @return the computed result
      */
     public <T> T compute(Function<Stream<Shop>, T> streamFunction) {
-        return read(() -> streamFunction.apply(this.shops.parallelStream()));
+        return read(() -> streamFunction.apply(shops.parallelStream()));
     }
 
     /**

@@ -2,7 +2,6 @@ package be.rubus.microstream.performance.hibernate.domain;
 
 import javax.persistence.*;
 
-
 @Entity
 @Table(name = "INVENTORYITEM")
 public class InventoryItemEntity extends BaseEntity {

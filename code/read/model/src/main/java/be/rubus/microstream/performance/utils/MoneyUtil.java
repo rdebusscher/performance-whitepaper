@@ -1,14 +1,10 @@
 package be.rubus.microstream.performance.utils;
 
 import org.javamoney.moneta.RoundedMoney;
-import org.javamoney.moneta.format.CurrencyStyle;
 
 import javax.money.CurrencyUnit;
 import javax.money.Monetary;
 import javax.money.MonetaryAmount;
-import javax.money.format.AmountFormatQueryBuilder;
-import javax.money.format.MonetaryAmountFormat;
-import javax.money.format.MonetaryFormats;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Locale;
@@ -22,11 +18,6 @@ public final class MoneyUtil {
      * {@link CurrencyUnit} for this demo, US Dollar is used as only currency.
      */
     public static final CurrencyUnit CURRENCY_UNIT = Monetary.getCurrency(Locale.US);
-
-    /**
-     * Money format
-     */
-    public final static MonetaryAmountFormat MONETARY_AMOUNT_FORMAT = MonetaryFormats.getAmountFormat(AmountFormatQueryBuilder.of(Locale.getDefault()).set(CurrencyStyle.SYMBOL).build());
 
     /**
      * Multiplicant used to calculate retail prices, adds an 11% margin.

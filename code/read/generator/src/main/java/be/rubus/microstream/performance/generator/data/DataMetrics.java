@@ -12,18 +12,6 @@ public class DataMetrics {
         this.shopCount = shopCount;
     }
 
-    public int bookCount() {
-        return bookCount;
-    }
-
-    public int countryCount() {
-        return countryCount;
-    }
-
-    public int shopCount() {
-        return shopCount;
-    }
-
     @Override
     public String toString() {
         return bookCount + " books, "

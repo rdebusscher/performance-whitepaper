@@ -6,7 +6,7 @@ public interface StopWatch {
 
     long stop();
 
-    static StopWatch StartNanoTime() {
+    static StopWatch start() {
         return new Default(System::nanoTime);
     }
 

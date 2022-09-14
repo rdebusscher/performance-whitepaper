@@ -21,7 +21,7 @@ public class PerformanceLoad {
 
         Class.forName("org.postgresql.Driver");
 
-        StopWatch stopWatch = StopWatch.StartNanoTime();
+        StopWatch stopWatch = StopWatch.start();
 
         try (Connection connection = DriverManager
                 .getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "mysecretpassword")) {
@@ -38,8 +38,6 @@ public class PerformanceLoad {
         }
 
         Duration loadingTime = Duration.ofNanos(stopWatch.stop());
-
-        // Default format
         logger.info("Data Loading AND storing took {} minutes {} Second {} Millisecond {} Nanosecond", loadingTime.toMinutesPart(), loadingTime.toSecondsPart(), loadingTime.toMillisPart(), loadingTime.toNanosPart() % 1_000_000L);
 
     }
