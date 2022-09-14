@@ -5,8 +5,9 @@ import be.rubus.microstream.performance.hibernate.domain.*;
 import be.rubus.microstream.performance.hibernate.util.HibernateUtil;
 import be.rubus.microstream.performance.microstream.StorageManagerFactory;
 import be.rubus.microstream.performance.microstream.database.Data;
-import be.rubus.microstream.performance.microstream.database.Range;
+import be.rubus.microstream.performance.Range;
 import be.rubus.microstream.performance.microstream.database.model.*;
+import be.rubus.microstream.performance.model.*;
 import one.microstream.storage.types.StorageManager;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -24,8 +25,6 @@ public class UploadIntoDatabase {
     private static final AutoIncrement INVENTORY_ITEM_ID = new AutoIncrement();
 
     public static void main(String[] args) {
-
-
         logger = LoggerFactory.getLogger(GenerateData.class);
 
         int channels = 1; // basic
@@ -37,10 +36,6 @@ public class UploadIntoDatabase {
         try (StorageManager storageManager = StorageManagerFactory.create("bookstore", channels, root)) {
 
             try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-
-                // TRUNCATE country RESTART IDENTITY CASCADE;
-                // TRUNCATE genre RESTART IDENTITY CASCADE;
-                // TRUNCATE language RESTART IDENTITY CASCADE;
 
                 migrateAddresses(session, root);
                 migrateCustomers(session, root);

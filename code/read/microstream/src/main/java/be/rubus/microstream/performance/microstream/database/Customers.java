@@ -1,7 +1,7 @@
 package be.rubus.microstream.performance.microstream.database;
 
 import be.rubus.microstream.performance.concurrent.ReadWriteLocked;
-import be.rubus.microstream.performance.microstream.database.model.Customer;
+import be.rubus.microstream.performance.model.Customer;
 import one.microstream.persistence.types.Persister;
 import one.microstream.storage.embedded.types.EmbeddedStorageManager;
 

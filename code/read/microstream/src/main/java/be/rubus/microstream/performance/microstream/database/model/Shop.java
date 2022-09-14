@@ -1,6 +1,10 @@
 package be.rubus.microstream.performance.microstream.database.model;
 
 import be.rubus.microstream.performance.microstream.utils.LazyUtils;
+import be.rubus.microstream.performance.model.Address;
+import be.rubus.microstream.performance.model.Employee;
+import be.rubus.microstream.performance.model.Inventory;
+import be.rubus.microstream.performance.model.NamedWithAddress;
 import one.microstream.reference.Lazy;
 
 import java.util.ArrayList;

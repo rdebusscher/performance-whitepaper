@@ -1,5 +1,7 @@
 package be.rubus.microstream.performance.microstream.database.model;
 
+import be.rubus.microstream.performance.model.Book;
+
 /**
  * View of a shop's inventory item slot.
  * <p>

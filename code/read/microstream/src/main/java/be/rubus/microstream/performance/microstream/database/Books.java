@@ -1,7 +1,7 @@
 package be.rubus.microstream.performance.microstream.database;
 
 import be.rubus.microstream.performance.concurrent.ReadWriteLocked;
-import be.rubus.microstream.performance.microstream.database.model.*;
+import be.rubus.microstream.performance.model.*;
 import one.microstream.persistence.types.Persister;
 import org.apache.lucene.document.Field.Store;
 import org.apache.lucene.document.StringField;

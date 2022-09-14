@@ -1,8 +1,8 @@
 package be.rubus.microstream.performance.generator.insert;
 
 
-import be.rubus.microstream.performance.microstream.database.model.Employee;
 import be.rubus.microstream.performance.microstream.database.model.Shop;
+import be.rubus.microstream.performance.model.Employee;
 
 /**
  * Since we don't have a reference from the Employee to the Shop, this object

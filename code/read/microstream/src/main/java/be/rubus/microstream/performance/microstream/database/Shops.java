@@ -1,8 +1,6 @@
 package be.rubus.microstream.performance.microstream.database;
 
 import be.rubus.microstream.performance.concurrent.ReadWriteLocked;
-import be.rubus.microstream.performance.microstream.database.model.Employee;
-import be.rubus.microstream.performance.microstream.database.model.Inventory;
 import be.rubus.microstream.performance.microstream.database.model.InventoryItem;
 import be.rubus.microstream.performance.microstream.database.model.Shop;
 import one.microstream.persistence.types.Persister;

@@ -1,14 +1,18 @@
 package be.rubus.microstream.performance.microstream.database;
 
+import be.rubus.microstream.performance.Range;
 import be.rubus.microstream.performance.concurrent.ReadWriteLocked;
 import be.rubus.microstream.performance.microstream.database.model.*;
 import be.rubus.microstream.performance.microstream.utils.CollectionUtils;
 import be.rubus.microstream.performance.microstream.utils.LazyUtils;
+import be.rubus.microstream.performance.model.BookSales;
+import be.rubus.microstream.performance.model.Country;
+import be.rubus.microstream.performance.model.Customer;
+import be.rubus.microstream.performance.model.Employee;
 import be.rubus.microstream.performance.utils.MoneyUtil;
 import one.microstream.persistence.types.Persister;
 import one.microstream.reference.Lazy;
 import one.microstream.reference.Referencing;
-import one.microstream.storage.embedded.types.EmbeddedStorageManager;
 
 import javax.money.MonetaryAmount;
 import java.util.*;
@@ -44,10 +48,6 @@ public class Purchases extends ReadWriteLocked {
         final Map<Shop, Lazy<List<Purchase>>> shopToPurchases = new HashMap<>(128);
         final Map<Employee, Lazy<List<Purchase>>> employeeToPurchases = new HashMap<>(512);
         final Map<Customer, Lazy<List<Purchase>>> customerToPurchases = new HashMap<>(1024);
-
-        YearlyPurchases() {
-            super();
-        }
 
         /**
          * Adds a purchase to all collections used by this class.
@@ -364,11 +364,11 @@ public class Purchases extends ReadWriteLocked {
      * @param country the country to filter by
      * @return a list of purchases
      */
-    public List<Purchase> purchasesOfForeigners(final int year, final Country country) {
+    public List<Purchase> purchasesOfForeigners( int year,  Country country) {
         return computePurchasesOfForeigners(year, country, purchases -> purchases.collect(toList()));
     }
 
-    private <T> T computePurchasesOfForeigners(final int year, final Country country, final Function<Stream<Purchase>, T> streamFunction) {
+    private <T> T computePurchasesOfForeigners( int year,  Country country,  Function<Stream<Purchase>, T> streamFunction) {
         return computeByShopsAndYear(shopInCountryPredicate(country), year, purchases -> streamFunction.apply(purchases.filter(purchaseOfForeignerPredicate())));
     }
 
@@ -376,6 +376,10 @@ public class Purchases extends ReadWriteLocked {
         return shop -> shop.address().city().state().country() == country;
     }
 
+    /**
+     * Foreigner predicate customer city is different from shop city.
+     * @return Predicate
+     */
     private static Predicate<? super Purchase> purchaseOfForeignerPredicate() {
         return p -> p.customer().address().city() != p.shop().address().city();
     }

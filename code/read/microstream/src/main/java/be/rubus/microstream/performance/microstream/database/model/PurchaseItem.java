@@ -1,5 +1,8 @@
 package be.rubus.microstream.performance.microstream.database.model;
 
+import be.rubus.microstream.performance.model.Book;
+import be.rubus.microstream.performance.model.HasId;
+
 import javax.money.MonetaryAmount;
 
 /**

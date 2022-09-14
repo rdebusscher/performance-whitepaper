@@ -1,5 +1,9 @@
 package be.rubus.microstream.performance.microstream.database.model;
 
+import be.rubus.microstream.performance.model.Customer;
+import be.rubus.microstream.performance.model.Employee;
+import be.rubus.microstream.performance.model.HasId;
+
 import javax.money.MonetaryAmount;
 import java.time.LocalDateTime;
 import java.util.ArrayList;

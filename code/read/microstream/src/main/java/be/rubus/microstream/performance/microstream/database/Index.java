@@ -181,7 +181,7 @@ public class Index<T> implements Closeable {
     private void lazyInit() {
         try {
             if (directory == null) {
-                Path path = Paths.get("data", "index", this.entityType.getSimpleName());
+                Path path = Paths.get("lucene-data", "index", this.entityType.getSimpleName());
                 directory = new MMapDirectory(path);
                 writer = new IndexWriter(directory, new IndexWriterConfig(new StandardAnalyzer()));
                 searcher = new IndexSearcher(reader = DirectoryReader.open(this.writer));

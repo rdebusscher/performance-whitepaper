@@ -98,8 +98,7 @@ After you have generated the classes for your data (see program `GenerateCLass` 
 but result already available within the project), you can insert, read and update from your table in a Java way using
 objects and no longer rely on th JDBC strings.
 
-The upload with JOOQ creates the JOOQ insert statement equivalent for each record and these are executed in batches of
-5000. The commit is performed at the end of the upload process.
+The upload with JOOQ creates the JOOQ insert statement equivalent for each record and these are executed in batches of 5000. The commit is performed at the end of the upload process.
 
 Although the performance should be better than with Hibernate, the tests shows that it is 3 times slower. So I assume,
 this JOOQ example could be improved.
@@ -121,11 +120,50 @@ The program can generate 3 'sizes' of data (Medium, Large and Huge). Have a look
 
 If you want to (re-) generate the datasets, you can follow the following steps.
 
-- Make sure the _bookstore_ and _data_ directories are removed. They contain the MicroStream and Lucene index data from a previous run.
-- Run the program `GenerateData` to have the data created w-and stored in the MicroStream format.
+- Make sure the _bookstore_ and _lucene-data_ directories are removed. They contain the MicroStream and Lucene index data from a previous run.
+- Run the program `GenerateData` to have the data created and stored in the MicroStream format.
 - Start the PostgreSQL server, we make again use of the Docker container  
 ```
 docker run --name some-postgres -e POSTGRES_PASSWORD=mysecretpassword -d -p 5432:5432 postgres
 ```
 - Create the database tables by executing the program `SchemaCreationDatabase`.  It reads the sql file _create_database.sql_ that (re-)creates all tables and indexes.  
 - Run the program `UploadIntoDatabase` to load the data into the database (this can take a while)
+
+## Some general aspects
+
+A few remarks about the code and why some additional 'actions' are coded.  They allow to have 'similar' data with each of the frameworks.
+
+- For MicroStream, we compare the time to read the data from the storage (when _StorageManager_ is created) with the time to create connection and initialize Hibernate when using the database.
+- Since MicroStream has always all referential data available (like _Customers_ and _Shops_ always have the _address_), Hibernate example has additional _JOIN FETCH_ statements and JDBC SQL additional joins, to retrieve all data. But we do not load all data from the database of course.
+- Since MicroStream and Hibernate return the results as 'objects', a small and simple mapping framework is created. It converts fields from the _ResultSet_ into objects and make sure that a record is only represented by a single object. For example, the same `Country` record is created as a single object and referenced from the different `State` objects that belong to the same _country_.  Have a look at the `be.rubus.microstream.performance.jdbc.query` and sub-package `framework` classes.  
+
+## Use cases
+
+For the moment, 2 use cases are already implemented and ready. A simple one reading just some data from a 'table' and a more complex one with many joins and many records.
+
+### Read customers
+
+In this example, we read data from the Customers 'table' in a paginated form. The test performs 3 queries where we always read 100 records. The first query reads the first 100, the second query the next 100, and so on.
+
+For the code, have a look at the class `AllCustomersPaged` that perform the test.
+
+- Package _be.rubus.microstream.performance.microstream.tests_  for MicroStream (module read/microstream).
+- Package _be.rubus.microstream.performance.jdbc.tests_  for JDBC (module read/jdbc).
+- Package _be.rubus.microstream.performance.hibernate.tests_  for Hibernate (module read/hibernate).
+
+### Purchases by 'foreigners'
+
+In this more complex query, we retrieve all purchases made by customers that are not living in the same city as the shop. We perform this action 9 times (for 3 random countries and 3 random years)
+
+Some remarks
+
+- The JDBC query doesn't retrieve the purchase details (items) as that would complicate the single query too much. So there should be another query executed to retrieve them (it can be a single query if we use a large _in ()_ query condition)
+- Since _purchase_ data is Lazy loaded in the MicroStream case, the first query loads the data for the 3 years in question. 
+
+The example also performs the queries for a second time, using the same countries and years.  This to have the query performance when your application is running (no more overhead of startup, only query time is taken).
+
+For the code, have a look at the class `PurchaseOfForeigners` that perform the test.
+
+- Package _be.rubus.microstream.performance.microstream.tests_  for MicroStream (module read/microstream).
+- Package _be.rubus.microstream.performance.jdbc.tests_  for JDBC (module read/jdbc).
+- Package _be.rubus.microstream.performance.hibernate.tests_  for Hibernate (module read/hibernate).
