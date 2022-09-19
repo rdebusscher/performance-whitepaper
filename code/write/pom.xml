@@ -20,7 +20,6 @@
         <module>microstream</module>
         <module>hibernate</module>
         <module>jdbc</module>
-        <module>jooq</module>
     </modules>
 
 </project>

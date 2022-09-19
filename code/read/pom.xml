@@ -19,7 +19,6 @@
         <module>model</module>
         <module>microstream</module>
         <module>jdbc</module>
-        <module>jooq</module>
         <module>hibernate</module>
         <module>generator</module>
     </modules>

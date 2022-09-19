@@ -39,6 +39,8 @@ public class UploadIntoDatabase {
                 migrateCustomers(session, root);
                 migrateBooks(session, root);
                 migrateShops(session, root);
+
+                // This is slow due to the indexes on the purchase and purchase_item table.
                 migratePurchases(session, root);
             }
 
