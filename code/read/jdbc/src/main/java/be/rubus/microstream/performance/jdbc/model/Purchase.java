@@ -91,6 +91,9 @@ public class Purchase extends HasId {
         return items.size();
     }
 
+    public void addItem(PurchaseItem item) {
+        items.add(item);
+    }
     /**
      * Computes the total of this purchase (sum of {@link PurchaseItem#itemTotal()})
      *

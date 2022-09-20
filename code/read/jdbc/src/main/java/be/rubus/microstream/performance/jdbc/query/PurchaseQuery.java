@@ -1,8 +1,10 @@
 package be.rubus.microstream.performance.jdbc.query;
 
 import be.rubus.microstream.performance.jdbc.model.Purchase;
+import be.rubus.microstream.performance.jdbc.model.PurchaseItem;
 import be.rubus.microstream.performance.jdbc.model.Shop;
 import be.rubus.microstream.performance.jdbc.model.builder.PurchaseBuilder;
+import be.rubus.microstream.performance.jdbc.model.builder.PurchaseItemBuilder;
 import be.rubus.microstream.performance.jdbc.model.builder.ShopBuilder;
 import be.rubus.microstream.performance.jdbc.query.framework.AbstractJDBCQuery;
 import be.rubus.microstream.performance.model.*;
@@ -11,6 +13,7 @@ import be.rubus.microstream.performance.model.builders.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class PurchaseQuery extends AbstractJDBCQuery {
 
@@ -44,11 +47,39 @@ public class PurchaseQuery extends AbstractJDBCQuery {
             throw new RuntimeException(e);
         }
 
+        // get all Purchase id to load the PurchaseItems
+        Long[] ids = result.stream().map(Purchase::getId).toArray(Long[]::new);
+
+        sql = "SELECT * FROM purchaseitem pi, book b " +
+                "WHERE pi.book_id = b.id " +
+                "AND pi.purchase_id = ANY (?)";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setArray(1, connection.createArrayOf("int8", ids));
+
+            try (ResultSet resultSet = pstmt.executeQuery()) {
+                while (resultSet.next()) {
+                    long id = resultSet.getLong(1);
+                    PurchaseItem purchaseItem = querySession.getOrMapInstance(PurchaseItem.class, resultSet, id, null);
+
+                    Optional<Purchase> purchase = result.stream().filter(p -> p.getId().equals(purchaseItem.purchaseId()))
+                            .findAny();
+                    purchase.ifPresent(p -> p.addItem(purchaseItem));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         return result;
     }
 
     @Override
     public <T> T extractInstance(Class<T> aClass, ResultSet resultSet, Object extractMetadata) {
+        if (aClass.isAssignableFrom(PurchaseItem.class)) {
+            return (T) getPurchaseItem(resultSet);
+        }
+        if (aClass.isAssignableFrom(Book.class)) {
+            return (T) getBook(resultSet);
+        }
         if (aClass.isAssignableFrom(Purchase.class)) {
             return (T) getPurchase(resultSet);
         }
@@ -91,6 +122,28 @@ public class PurchaseQuery extends AbstractJDBCQuery {
         }
     }
 
+    private PurchaseItem getPurchaseItem(ResultSet resultSet) {
+        try {
+
+            long id = resultSet.getLong(1);
+            int amount = resultSet.getInt(2);
+
+            long bookId = resultSet.getLong(4);
+            long purchaseId = resultSet.getLong(5);
+
+
+            return new PurchaseItemBuilder()
+                    .withId(id)
+                    .withAmount(amount)
+                    .withBook(querySession.getOrMapInstance(Book.class, resultSet, bookId, null))
+                    .withPurchaseId(purchaseId)
+                    .build();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private Purchase getPurchase(ResultSet resultSet) {
         try {
 
@@ -111,6 +164,29 @@ public class PurchaseQuery extends AbstractJDBCQuery {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private Book getBook(ResultSet resultSet) {
+        try {
+
+            long id = resultSet.getLong(6);
+            String isbn = resultSet.getString(7);
+            double purchasePrice = resultSet.getDouble(8);
+            double retailPrice = resultSet.getDouble(9);
+            String title = resultSet.getString(10);
+            // The other fields are references
+            return new BookBuilder()
+                    .withId(id)
+                    .withIsbn13(isbn)
+                    .withPurchasePrice(purchasePrice)
+                    .withRetailPrice(retailPrice)
+                    .withTitle(title)
+                    .build();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     private Country getCountry(ResultSet resultSet, int shift) {

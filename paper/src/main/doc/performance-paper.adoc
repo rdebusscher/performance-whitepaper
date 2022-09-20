@@ -236,7 +236,7 @@ Raw data, values are in milliseconds.
 |===
 ||MicroStream|JDBC |Hibernate
 |load/connect|1326|241|1644
-|query|715|2635|4409
+|query|715|4461|4204
 |===
 
 The queries are executed a second time, immediately after the first one, for the same parameters.  This means the same connection, and the same Hibernate session is used. For MicroStream, it means that the _purchase_ data is already loaded since the same years and countries are used in this second run.
@@ -248,7 +248,7 @@ Raw data, values are in milliseconds.
 [cols="1,1,1"]
 |===
 |MicroStream|JDBC |Hibernate
-|5|1960|3375
+|5|2661|3291
 |===
 
 === Discussion
@@ -290,3 +290,6 @@ And the answer comes from the JDBC example. When we look at the time that we nee
 
 == Conclusion
 
+Reading data is much more efficient with MicroStream than when you retrieve them from the database.  The initial load takes some time, but here in our example it was as fast as initializing Hibernate and from that point on, it can be a factor of 1000 times faster since data is already in the memory and within the correct format.
+
+With a carefully designed data model using Lazy loading, and indexing based on Map structures, you can achieve data retrieval times that are significantly faster. And you do not have the master the complex concepts of database access frameworks, nor spend a lot of time optimizing the database queries.

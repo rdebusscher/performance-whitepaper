@@ -13,17 +13,20 @@ public class PurchaseItem extends HasId {
     private final int amount;
     private final MonetaryAmount price;
 
+    private final Long purchaseId;
+
     /**
      * Constructor to create a new {@link PurchaseItem} instance.
      *
      * @param book   not <code>null</code>
      * @param amount positive amount
      */
-    public PurchaseItem(Long id, Book book, int amount) {
+    public PurchaseItem(Long id, Book book, int amount, Long purchaseId) {
         super(id);
         this.book = book;
         this.amount = amount;
         this.price = book.retailPrice();
+        this.purchaseId = purchaseId;
     }
 
     /**
@@ -62,4 +65,7 @@ public class PurchaseItem extends HasId {
         return price.multiply(amount);
     }
 
+    public Long purchaseId() {
+        return purchaseId;
+    }
 }

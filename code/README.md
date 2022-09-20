@@ -158,7 +158,7 @@ In this more complex query, we retrieve all purchases made by customers that not
 
 Some remarks
 
-- The JDBC query doesn't retrieve the purchase details (items) as that would complicate the single query too much. So there should be another query executed to retrieve them (it can be a single query if we use a large _in ()_ query condition)
+- The JDBC query doesn't retrieve the purchase details (items) in the same query as that would complicate the single query too much. So an additional query is executed to retrieve the purchase details and book information using an _in clause_ alike structure. 
 - Since _purchase_ data is Lazy loaded in the MicroStream case, the first query loads the data for the 3 years in question.
 
 The example also performs the queries for a second time, using the same countries and years.  This is to have the query performance when your application is running (no more overhead of startup, only query time is taken).
