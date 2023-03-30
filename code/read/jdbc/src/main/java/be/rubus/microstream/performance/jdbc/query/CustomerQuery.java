@@ -18,6 +18,7 @@ public class CustomerQuery extends AbstractJDBCQuery {
     public List<Customer> performQuery(Connection connection, int page) {
         List<Customer> result = new ArrayList<>();
 
+        // FIXME We should have ORDER Y to guarantee identical order between the different calls.
         String sql = "SELECT * FROM customer c, address a, city ci, state s, country co WHERE c.address_id = a.id AND a.city_id = ci.id AND ci.state_id = s.id AND s.country_id = co.id LIMIT ? OFFSET ?";
 
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {

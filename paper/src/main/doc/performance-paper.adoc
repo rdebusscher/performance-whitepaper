@@ -236,7 +236,7 @@ Raw data, values are in milliseconds.
 |===
 ||MicroStream|JDBC |Hibernate
 |load/connect|1326|241|1644
-|query|715|4461|4204
+|query|715|1405|2407
 |===
 
 The queries are executed a second time, immediately after the first one, for the same parameters.  This means the same connection, and the same Hibernate session is used. For MicroStream, it means that the _purchase_ data is already loaded since the same years and countries are used in this second run.
@@ -248,7 +248,7 @@ Raw data, values are in milliseconds.
 [cols="1,1,1"]
 |===
 |MicroStream|JDBC |Hibernate
-|5|2661|3291
+|5|965|1151
 |===
 
 === Discussion

@@ -29,6 +29,8 @@ public class PurchaseQuery extends AbstractJDBCQuery {
                 "AND p.customer_id = c.id " +
                 "AND c.address_id = pca.id " +
                 "AND pca.city_id = pcc.id " +
+                "AND pcc.state_id = pcs.id " +
+                "AND pcs.country_id = pccc.id " +
                 "AND psa.city_id <> pca.city_id " +
                 "AND pscc.id = ? " +
                 "AND EXTRACT(YEAR FROM p.time_stamp) = ?";
