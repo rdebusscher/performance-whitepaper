@@ -21,6 +21,7 @@
         <module>jdbc</module>
         <module>hibernate</module>
         <module>generator</module>
+        <module>exposed</module>
     </modules>
 
     <dependencies>
